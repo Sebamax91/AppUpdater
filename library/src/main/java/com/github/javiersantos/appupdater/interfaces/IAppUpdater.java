@@ -16,6 +16,13 @@ import com.github.javiersantos.appupdater.objects.Update;
 
 public interface IAppUpdater {
     /**
+     * Set the theme for the dialog. Default: NULL
+     *
+     * @param theme the resource id for the theme
+     * @return this
+     */
+    AppUpdater setTheme(Integer theme);
+    /**
      * Set the type of message used to notify the user when a new update has been found. Default: DIALOG.
      *
      * @param display how the update will be shown

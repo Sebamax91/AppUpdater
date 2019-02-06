@@ -18,13 +18,72 @@ import java.net.URL;
 
 class UtilsDisplay {
 
-    static AlertDialog showUpdateAvailableDialog(final Context context, String title, String content, String btnNegative, String btnPositive, String btnNeutral, final DialogInterface.OnClickListener updateClickListener, final DialogInterface.OnClickListener dismissClickListener, final DialogInterface.OnClickListener disableClickListener) {
-        return new AlertDialog.Builder(context)
+    static AlertDialog showUpdateAvailableDialog(
+            final Context context,
+            String title,
+            String content,
+            String btnNegative,
+            String btnPositive,
+            String btnNeutral,
+            final DialogInterface.OnClickListener updateClickListener,
+            final DialogInterface.OnClickListener dismissClickListener,
+            final DialogInterface.OnClickListener disableClickListener
+    ) {
+        return setBuilder(
+                new AlertDialog.Builder(context),
+                title,
+                content,
+                btnNegative,
+                btnPositive,
+                btnNeutral,
+                updateClickListener,
+                dismissClickListener,
+                disableClickListener
+        ).create();
+    }
+
+    static AlertDialog showUpdateAvailableDialog(
+            final Context context,
+            int theme,
+            String title,
+            String content,
+            String btnNegative,
+            String btnPositive,
+            String btnNeutral,
+            final DialogInterface.OnClickListener updateClickListener,
+            final DialogInterface.OnClickListener dismissClickListener,
+            final DialogInterface.OnClickListener disableClickListener
+    ) {
+        return setBuilder(
+                new AlertDialog.Builder(context, theme),
+                title,
+                content,
+                btnNegative,
+                btnPositive,
+                btnNeutral,
+                updateClickListener,
+                dismissClickListener,
+                disableClickListener
+        ).create();
+    }
+
+    private static AlertDialog.Builder setBuilder(
+            AlertDialog.Builder builder,
+            String title,
+            String content,
+            String btnNegative,
+            String btnPositive,
+            String btnNeutral,
+            final DialogInterface.OnClickListener updateClickListener,
+            final DialogInterface.OnClickListener dismissClickListener,
+            final DialogInterface.OnClickListener disableClickListener
+    ) {
+        return builder
                 .setTitle(title)
                 .setMessage(content)
                 .setPositiveButton(btnPositive, updateClickListener)
                 .setNegativeButton(btnNegative, dismissClickListener)
-                .setNeutralButton(btnNeutral, disableClickListener).create();
+                .setNeutralButton(btnNeutral, disableClickListener);
     }
 
     static AlertDialog showUpdateNotAvailableDialog(final Context context, String title, String content) {

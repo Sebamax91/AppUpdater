@@ -21,6 +21,7 @@ import com.github.javiersantos.appupdater.objects.Update;
 
 public class AppUpdater implements IAppUpdater {
     private Context context;
+    private Integer theme;
     private LibraryPreferences libraryPreferences;
     private Display display;
     private UpdateFrom updateFrom;
@@ -41,6 +42,7 @@ public class AppUpdater implements IAppUpdater {
 
     public AppUpdater(Context context) {
         this.context = context;
+        this.theme = null;
         this.libraryPreferences = new LibraryPreferences(context);
         this.display = Display.DIALOG;
         this.updateFrom = UpdateFrom.GOOGLE_PLAY;
@@ -56,6 +58,12 @@ public class AppUpdater implements IAppUpdater {
         this.btnDismiss = context.getResources().getString(R.string.appupdater_btn_dismiss);
         this.btnDisable = context.getResources().getString(R.string.appupdater_btn_disable);
         this.isDialogCancelable = true;
+    }
+
+    @Override
+    public AppUpdater setTheme(Integer theme) {
+        this.theme = theme;
+        return this;
     }
 
     @Override
@@ -343,7 +351,11 @@ public class AppUpdater implements IAppUpdater {
                                 final DialogInterface.OnClickListener updateClickListener = btnUpdateClickListener == null ? new UpdateClickListener(context, updateFrom, update.getUrlToDownload()) : btnUpdateClickListener;
                                 final DialogInterface.OnClickListener disableClickListener = btnDisableClickListener == null ? new DisableClickListener(context) : btnDisableClickListener;
 
-                                alertDialog = UtilsDisplay.showUpdateAvailableDialog(context, titleUpdate, getDescriptionUpdate(context, update, Display.DIALOG), btnDismiss, btnUpdate, btnDisable, updateClickListener, btnDismissClickListener, disableClickListener);
+                                if (theme != null) {
+                                    alertDialog = UtilsDisplay.showUpdateAvailableDialog(context, theme, titleUpdate, getDescriptionUpdate(context, update, Display.DIALOG), btnDismiss, btnUpdate, btnDisable, updateClickListener, btnDismissClickListener, disableClickListener);
+                                } else {
+                                    alertDialog = UtilsDisplay.showUpdateAvailableDialog(context, titleUpdate, getDescriptionUpdate(context, update, Display.DIALOG), btnDismiss, btnUpdate, btnDisable, updateClickListener, btnDismissClickListener, disableClickListener);
+                                }
                                 alertDialog.setCancelable(isDialogCancelable);
                                 alertDialog.show();
                                 break;
@@ -441,5 +453,4 @@ public class AppUpdater implements IAppUpdater {
             return descriptionNoUpdate;
         }
     }
-
 }
